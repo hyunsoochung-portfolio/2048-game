@@ -1,4 +1,3 @@
-// src/components/Game.js
 
 import React from "react";
 import { use2048Game } from "../hooks/use2048Game";
