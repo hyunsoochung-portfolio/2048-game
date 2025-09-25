@@ -1,6 +1,4 @@
-/* src/components/Tile.css */
 
-/* 게임 보드 전체 레이아웃 */
 .board-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -14,13 +12,11 @@
   margin: 20px auto;
 }
 
-/* 타일이 없는 배경 셀 */
 .board-cell-background {
   background-color: #cdc1b4;
   border-radius: 3px;
 }
 
-/* 개별 타일 기본 스타일 */
 .tile {
   display: flex;
   justify-content: center;
@@ -29,20 +25,14 @@
   font-weight: bold;
   border-radius: 3px;
   
-  /* 애니메이션 추가 */
-  /* 위치 변화는 Grid가 처리하므로, transform 속성 변화만 애니메이션 처리 */
   transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
-
-/* 새로운 타일이 나타날 때 튀어나오는 애니메이션 */
 @keyframes tile-pop-in {
   0% { transform: scale(0); }
   50% { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
 
-/* 타일 값에 따른 배경색과 폰트색 */
-/* (이하 코드는 이전과 동일) */
 .tile-null {
   background-color: #cdc1b4;
 }
