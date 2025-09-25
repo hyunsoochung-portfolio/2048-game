@@ -10,8 +10,7 @@ const Game = () => {
   return (
     <div className="game-container">
       <div className="game-header">
-        <h1>감자가 만들어준 민아전용2048</h1>
-        <h2>2048을 하고싶으면 이걸로 하라궁</h2>
+        <h1>2048</h1>
         <div className="game-controls">
           <div className="score-board">
             Score: <span className="score">{score}</span>
