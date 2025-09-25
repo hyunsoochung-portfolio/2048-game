@@ -1,17 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
 import { moveMapIn2048Rule } from "../gameLogic";
 
-// 게임 상수
+
 const MAP_SIZE = 4;
 const INITIAL_TILES_COUNT = 2;
 const LOCAL_STORAGE_KEY = '2048_game_state';
-const MAX_UNDO_COUNT = 2; // 최대 언두 횟수
+const MAX_UNDO_COUNT = 2; 
 
-// 빈 맵 생성 함수
+
 const createEmptyMap = () =>
   Array.from({ length: MAP_SIZE }, () => Array(MAP_SIZE).fill(null));
 
-// 빈 셀에 2 또는 4 타일을 무작위로 추가하는 함수
+
 const addRandomTile = (map) => {
   const emptyCells = [];
   for (let r = 0; r < MAP_SIZE; r++) {
@@ -32,7 +32,6 @@ const addRandomTile = (map) => {
   return map;
 };
 
-// 게임 오버 여부를 확인하는 함수
 const checkGameOver = (map) => {
   for (let r = 0; r < MAP_SIZE; r++) {
     for (let c = 0; c < MAP_SIZE; c++) {
@@ -50,13 +49,13 @@ const checkGameOver = (map) => {
 };
 
 export const use2048Game = () => {
-  // 로컬 스토리지에서 초기 상태를 가져오는 함수
+
   const getInitialState = () => {
     try {
       const savedState = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (savedState) {
         const parsedState = JSON.parse(savedState);
-        // undo 스택과 카운트가 없을 경우 기본값 설정
+
         if (!parsedState.undoStack) parsedState.undoStack = [];
         if (!parsedState.undoCount) parsedState.undoCount = 0;
         return parsedState;
@@ -65,7 +64,7 @@ export const use2048Game = () => {
       console.error("Failed to load state from localStorage:", error);
     }
 
-    // 저장된 상태가 없으면 초기 게임 상태 생성
+
     let initialMap = createEmptyMap();
     for (let i = 0; i < INITIAL_TILES_COUNT; i++) {
       initialMap = addRandomTile(initialMap);
@@ -76,12 +75,11 @@ export const use2048Game = () => {
   const [gameState, setGameState] = useState(getInitialState);
   const { map, score, status, undoStack, undoCount } = gameState;
 
-  // 게임 상태가 변경될 때마다 로컬 스토리지에 저장
+
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(gameState));
   }, [gameState]);
 
-  // 게임 초기화
   const resetGame = useCallback(() => {
     let initialMap = createEmptyMap();
     for (let i = 0; i < INITIAL_TILES_COUNT; i++) {
@@ -96,7 +94,6 @@ export const use2048Game = () => {
     });
   }, []);
 
-  // undo 기능
   const undoLastMove = useCallback(() => {
     if (undoCount >= MAX_UNDO_COUNT || undoStack.length === 0) {
       return;
@@ -112,7 +109,6 @@ export const use2048Game = () => {
     });
   }, [undoStack, undoCount]);
 
-  // 키보드 입력 처리
   const handleKeyDown = useCallback(
     (event) => {
       if (status !== "playing") return;
