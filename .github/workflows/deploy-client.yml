@@ -31,14 +31,24 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Verify AWS credentials and S3 bucket access
+      - name: Verify AWS credentials
         run: |
+          echo "Checking AWS credentials..."
           aws sts get-caller-identity
-          aws s3 ls s3://hyunsoo || echo "Warning: Cannot list S3 bucket. Check if bucket exists and credentials have proper permissions."
+          echo "AWS credentials verified successfully"
+
+      - name: Check S3 bucket access
+        continue-on-error: true
+        run: |
+          echo "Checking S3 bucket access..."
+          aws s3 ls s3://hyunsoo || echo "ERROR: Cannot access S3 bucket 'hyunsoo'"
+          aws s3api head-bucket --bucket hyunsoo || echo "ERROR: Bucket 'hyunsoo' does not exist or access denied"
 
       - name: Deploy to S3
         run: |
+          echo "Deploying to S3..."
           aws s3 sync ./build s3://hyunsoo --delete
+          echo "Deployment completed successfully"
 
       - name: Invalidate CloudFront cache
         run: |
