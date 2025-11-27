@@ -1,7 +1,10 @@
 name: deploy-prod
 
-# Production deployment workflow - manual trigger only
+# Production deployment workflow
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
