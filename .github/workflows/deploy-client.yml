@@ -24,32 +24,11 @@ jobs:
           yarn install
           yarn build
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-
-      - name: Verify AWS credentials
+      - name: Deploy to S3 and Invalidate Cloudfront in prod mode
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ap-northeast-2
         run: |
-          echo "Checking AWS credentials..."
-          aws sts get-caller-identity
-          echo "AWS credentials verified successfully"
-
-      - name: Check S3 bucket access
-        continue-on-error: true
-        run: |
-          echo "Checking S3 bucket access..."
-          aws s3 ls s3://hyunsoo || echo "ERROR: Cannot access S3 bucket 'hyunsoo'"
-          aws s3api head-bucket --bucket hyunsoo || echo "ERROR: Bucket 'hyunsoo' does not exist or access denied"
-
-      - name: Deploy to S3
-        run: |
-          echo "Deploying to S3..."
-          aws s3 sync ./build s3://hyunsoo --delete
-          echo "Deployment completed successfully"
-
-      - name: Invalidate CloudFront cache
-        run: |
+          aws s3 sync ./build s3://hyunsoo-waffle2025 --delete
           aws cloudfront create-invalidation --distribution-id E1W0GQSEQCUBF6 --paths "/*"
