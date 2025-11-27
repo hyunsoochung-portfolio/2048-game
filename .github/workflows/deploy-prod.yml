@@ -3,6 +3,11 @@ name: deploy-prod
 # Production deployment workflow - manual trigger only
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**'
 
 jobs:
   deploy:
