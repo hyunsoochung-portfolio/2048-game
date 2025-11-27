@@ -46,6 +46,8 @@ const rotateMapCounterClockwise = (map, degree) => {
           (_, rowIndex) => map[rowLength - rowIndex - 1][columnIndex],
         ),
       );
+    default:
+      return map;
   }
 };
 
