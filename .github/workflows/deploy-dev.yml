@@ -39,5 +39,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ap-northeast-2
         run: |
-          aws s3 sync ./build s3://hyunsoo-waffle2025/dev/ --delete
-          aws cloudfront create-invalidation --distribution-id E1W0GQSEQCUBF6 --paths "/dev/*"
+          aws s3 sync ./build s3://hyunsoo-waffle2025-dev --delete
+          aws cloudfront create-invalidation --distribution-id E1OVS9X3DS4WYB --paths "/*"
